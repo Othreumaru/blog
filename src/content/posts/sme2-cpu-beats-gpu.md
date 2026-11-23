@@ -96,3 +96,7 @@ To sum up:
 * **It's efficient.** Detection adds only about 0.5 W on top of the camera, so the camera, not the AI, sets the power budget. That's about 9.5 hours on battery, or always-on with a small solar panel.
 
 Your next AI accelerator might already be in your CPU.
+
+---
+
+Questions, corrections or your own SME2 numbers? Email me at [hello@kkabat.com](mailto:hello@kkabat.com) or join the [llama.cpp discussion](https://github.com/ggml-org/llama.cpp/discussions/32895).

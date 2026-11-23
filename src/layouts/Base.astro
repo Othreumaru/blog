@@ -1,5 +1,5 @@
 ---
-import { SITE_TITLE, SITE_DESCRIPTION, LINKS } from '../consts';
+import { SITE_TITLE, SITE_DESCRIPTION, LINKS, EMAIL } from '../consts';
 
 interface Props {
   title?: string;
@@ -36,13 +36,14 @@ const ogImage = image ? new URL(image, Astro.site).href : undefined;
         <a href="/">Posts</a>
         <a href="/rss.xml">RSS</a>
         <a href={LINKS.github}>GitHub</a>
+        <a href={`mailto:${EMAIL}`}>Contact</a>
       </nav>
     </header>
     <main>
       <slot />
     </main>
     <footer class="site">
-      <span>© {new Date().getFullYear()} {SITE_TITLE}</span>
+      <span>© {new Date().getFullYear()} {SITE_TITLE} · <a href={`mailto:${EMAIL}`}>{EMAIL}</a></span>
     </footer>
   </body>
 </html>
