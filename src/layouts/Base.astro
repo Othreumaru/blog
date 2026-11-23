@@ -1,0 +1,142 @@
+---
+import { SITE_TITLE, SITE_DESCRIPTION, LINKS } from '../consts';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+const { title, description = SITE_DESCRIPTION, image } = Astro.props;
+const pageTitle = title ? `${title} · ${SITE_TITLE}` : SITE_TITLE;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = image ? new URL(image, Astro.site).href : undefined;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:type" content={title ? 'article' : 'website'} />
+    <meta property="og:title" content={title ?? SITE_TITLE} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+  </head>
+  <body>
+    <header class="site">
+      <a href="/" class="brand">{SITE_TITLE}</a>
+      <nav>
+        <a href="/">Posts</a>
+        <a href="/rss.xml">RSS</a>
+        <a href={LINKS.github}>GitHub</a>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site">
+      <span>© {new Date().getFullYear()} {SITE_TITLE}</span>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --fg: #1d1d1f;
+    --muted: #6e6e73;
+    --bg: #fdfdfc;
+    --accent: #2f5bd3;
+    --code-bg: #f4f4f2;
+    --rule: #e5e5e2;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fg: #e8e8e6;
+      --muted: #9a9a9f;
+      --bg: #141415;
+      --accent: #8aa8ff;
+      --code-bg: #1f1f21;
+      --rule: #2c2c2e;
+    }
+    .astro-code,
+    .astro-code span {
+      background-color: var(--code-bg) !important;
+      color: var(--fg) !important;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 18px/1.65 ui-serif, Georgia, 'Iowan Old Style', serif;
+  }
+  header.site, main, footer.site {
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 0 1.25rem;
+  }
+  header.site {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.95rem;
+  }
+  header.site .brand { font-weight: 650; color: var(--fg); text-decoration: none; }
+  header.site nav a { margin-left: 1rem; color: var(--muted); text-decoration: none; }
+  header.site nav a:hover { color: var(--accent); }
+  footer.site {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+    border-top: 1px solid var(--rule);
+    color: var(--muted);
+    font: 0.85rem ui-sans-serif, system-ui, sans-serif;
+  }
+  a { color: var(--accent); }
+  h1, h2, h3 {
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  h1 { font-size: 2rem; margin: 0 0 0.5rem; }
+  h2 { font-size: 1.35rem; margin-top: 2.5rem; }
+  img { max-width: 100%; height: auto; border-radius: 6px; }
+  pre, code { font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace; }
+  pre {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    padding: 1rem 1.1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    background: var(--code-bg);
+  }
+  :not(pre) > code {
+    font-size: 0.88em;
+    background: var(--code-bg);
+    padding: 0.1em 0.3em;
+    border-radius: 4px;
+  }
+  figure { margin: 2rem 0; }
+  figcaption, .caption {
+    color: var(--muted);
+    font: 0.85rem/1.5 ui-sans-serif, system-ui, sans-serif;
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+  hr { border: none; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
+</style>

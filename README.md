@@ -1,0 +1,8 @@
+# blog
+
+Personal blog built with [Astro](https://astro.build), deployed on Cloudflare Pages.
+
+- New post: add `src/content/posts/<slug>.md` (frontmatter: `title`, `description`, `date`, optional `cover`, `draft`). Images go in `src/assets/posts/<slug>/`.
+- Local: `npm install && npm run dev`
+- Cloudflare Pages: preset **Astro**, build `npm run build`, output `dist`.
+- After the first deploy, set `SITE_URL` in `astro.config.mjs` to the live URL.
