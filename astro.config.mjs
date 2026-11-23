@@ -2,8 +2,8 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// Change this once the Cloudflare Pages URL (or a custom domain) is known.
-export const SITE_URL = 'https://blog.pages.dev';
+// Change this if you move to a custom domain.
+export const SITE_URL = 'https://blog.odrinwhite.workers.dev';
 
 export default defineConfig({
   site: SITE_URL,
