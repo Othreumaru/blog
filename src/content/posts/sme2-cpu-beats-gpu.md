@@ -68,7 +68,7 @@ Up to 5× vs NEON! One core now runs ResNet-50 in 12.5 ms, which is 80 images pe
 
 But hold on, wouldn't the GPU be better at this? And benchmarks are one thing, but can it do real work? To find out, I built a small Android app that runs live object detection on the camera feed. With EfficientDet-Lite0, a general object detector, it took 11 ms per frame on one CPU core with SME2, versus 59 ms on the GPU (float model on the GPU, because its runtime can't take int8 input).
 
-Wow, the CPU wins, on a single core.
+Wow, the CPU wins, and it only needed one core.
 
 Time for the drone detector. I took a small open-source YOLO11 drone model, converted it to int8 in Colab and dropped it into the app. Pointed at a photo on my laptop screen, it found both drones (84% and 52% confidence), in 6 ms per frame, at 60 frames per second, on one core.
 
@@ -92,7 +92,7 @@ To sum up:
 
 * **SME2 is a matrix engine inside the CPU, not just faster cores.** It does matrix math in tiles instead of small vectors, and that gave nearly 5× over NEON on image models.
 * **One thread is enough.** All cores share one SME2 unit, so a single thread can use all of it while the other cores stay free.
-* **For small vision models it beat the GPU** in my tests, even on a single core.
-* **It's efficient.** The camera, not the AI, is what drains the battery, which makes a phone with SME2 a realistic always-on smart sensor.
+* **For small vision models it beat the GPU** in my tests, using just one core and leaving the rest free.
+* **It's efficient.** Detection adds only about 0.5 W on top of the camera, so the camera, not the AI, sets the power budget. That's about 9.5 hours on battery, or always-on with a small solar panel.
 
 Your next AI accelerator might already be in your CPU.
